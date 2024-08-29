@@ -74,6 +74,18 @@
                   <option value="{{color}}">{{color}}</option>
                   {% endfor %}
                 </select>
+                <select
+                  class="form-select"
+                  id="subgrupo"
+                  name="subgrupo"
+                  aria-label="Default select example"
+                  onchange="document.getElementById('filterForm').submit();"
+                >
+                  <option selected disabled>Subfamilias...</option>
+                  {% for subgrupo in subgrupos %}
+                  <option value="{{ subgrupo.0 }}" {% if request.GET.subgrupo == subgrupo.0 %}selected{% endif %}>{{ subgrupo.1 }}</option>
+                  {% endfor %}
+                </select>
               </form>
               <a
                 class="btn btn-sm btn-outline-secondary p-2 m-1"

@@ -18,19 +18,42 @@ def ver_referencias(request):
     grupos_desc = Referencia.objects.values_list("grupo_desc", flat=True).distinct()
     busqueda = request.GET.get("busqueda", "")
     color = request.GET.get("color", "")
+    subgrupo = request.GET.get("subgrupo", "")
     colores = (
         Producto.objects.filter(cantidad__gte=0)
         .values_list("color", flat=True)
         .distinct()
     )
+    subgrupos = []
 
     # Filtrar las referencias en base a la descripción del grupo
     if busqueda:
-        if color:
+        subgrupos = (
+            Referencia.objects.filter(
+                fotos__isnull=False,
+                descripcion__icontains=busqueda,
+            )
+            .values_list("subgrupo", "subgrupo_desc")
+            .distinct()
+        )
+        if color and subgrupo:
             referencias = Referencia.objects.filter(
                 fotos__isnull=False,
                 descripcion__icontains=busqueda,
                 productos__color=color,
+                subgrupo=subgrupo,
+            ).distinct()
+        elif color:
+            referencias = Referencia.objects.filter(
+                fotos__isnull=False,
+                descripcion__icontains=busqueda,
+                productos__color=color,
+            ).distinct()
+        elif subgrupo:
+            referencias = Referencia.objects.filter(
+                fotos__isnull=False,
+                descripcion__icontains=busqueda,
+                subgrupo=subgrupo,
             ).distinct()
         else:
             referencias = Referencia.objects.filter(
@@ -50,6 +73,7 @@ def ver_referencias(request):
             "grupos_desc": grupos_desc,
             "busqueda": busqueda,
             "colores": colores,
+            "subgrupos": subgrupos,
         },
     )
 
