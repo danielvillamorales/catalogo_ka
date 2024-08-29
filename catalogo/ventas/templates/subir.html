@@ -1,0 +1,22 @@
+{% extends "layout.html" %} {% load humanize %} {% block content %}
+<div class="row container-fluid">
+  <div class="col-12">
+    <form method="post">
+      {% csrf_token %}
+      <p class="text-info">
+        Subira los productos que tengan saldo y ademas tengan foto en el
+        servidor ftp
+      </p>
+      <p class="text-warning">importnte subir las fotos al ftp primero</p>
+      <button class="btn btn-secondary">Subir Productos</button>
+    </form>
+  </div>
+  <div class="col-12">
+    <ul class="list-group">
+      {% for l in lista %}
+      <li class="list-item">{{l}}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Catalogo Ka</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zoom.js/0.0.2/zoom.min.js"></script>
+
+    <link rel="stylesheet" href="{% static  'css/estilos_login.css' %}?8" />
+  </head>
+  <body>
+    <div class="col-12">
+      <h1 class="text-light text-center">Bienvenido a Kosta Azul</h1>
+    </div>
+    <div class="d-flex justify-content-center align-items-center vh-100">
+      <div class="col-3"></div>
+      <div class="col-6">
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-5">
+              <img
+                src="{% static 'img/login.png' %}"
+                class="img-fluid rounded-start"
+                alt="logo"
+              />
+            </div>
+            <div class="col-md-7">
+              <div class="card-body">
+                <form action="{% url 'login' %}" method="post">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="username" class="form-label">Usuario</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="username"
+                      name="username"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      name="password"
+                      required
+                    />
+                  </div>
+                  <button type="submit" class="btn btn-outline-light">
+                    Ingresar
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3"></div>
+    </div>
+  </body>
+</html>

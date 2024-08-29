@@ -1,0 +1,115 @@
+{% extends "layout.html" %} {% load humanize %} {% block content %}
+<div class="row container-fluid">
+  {% for r in referencias %}
+  <div class="col-lg-3 col-12 col-md-6 col-sm-6 p-1">
+    <div class="card" style="width: 18rem p-2">
+      <div
+        id="carousel{{ forloop.counter }}"
+        class="carousel slide"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-inner">
+          {% for foto in r.fotos.all %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <img src="{{ foto.imagen.url }}" class="d-block w-100" alt="..." />
+          </div>
+          {% endfor %}
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carousel{{ forloop.counter }}"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carousel{{ forloop.counter }}"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <div class="card-body">
+        <h6 class="card-title">{{r.codigo}} : {{r.consecutivo}}</h6>
+        <h6 class="card-text text-descripcion text-center">
+          {{r.descripcion}}
+        </h6>
+        <p class="card-text seleccion-precio" style="cursor: pointer">
+          <span class="tiquete">Precio: {{r.precio | intcomma}}</span>
+          <span class="mayor" style="display: none"
+            >Mayor: {{r.mayor | intcomma}}</span
+          >
+        </p>
+        <p class="card-text text-descripcion">{{r.productos.first.color}}</p>
+        <p class="card-text text-descripcion">{{r.composicion}}</p>
+        <ul>
+          {% for producto in r.productos.all %}
+          <li
+            data-cantidad="{{ producto.cantidad }}"
+            class="li-card"
+            title="{{producto.codigo}}"
+            ontouchstart="showTitle(event)"
+          >
+            {{ producto.talla }}
+            <span class="ver_saldo" style="display: none"
+              >: {{producto.cantidad}}</span
+            >
+          </li>
+          {% endfor %}
+        </ul>
+        <button class="btn btn-sm btn-outline-primary saldo-btn">Saldo</button>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<script>
+  function showTitle(event) {
+    const title = event.target.getAttribute("title");
+    alert(title);
+  }
+</script>
+<script>
+  document.querySelectorAll(".carousel-item img").forEach((img) => {
+    img.classList.add("zoom");
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const botonesSaldo = document.querySelectorAll(".saldo-btn");
+    botonesSaldo.forEach(function (boton) {
+      boton.addEventListener("click", function () {
+        const cantidades = this.parentElement.querySelectorAll(".ver_saldo");
+        cantidades.forEach(function (cantidad) {
+          if (cantidad.style.display === "none") {
+            cantidad.style.display = "inline";
+          } else {
+            cantidad.style.display = "none";
+          }
+        });
+      });
+    });
+
+    const precios = document.querySelectorAll(".seleccion-precio");
+    precios.forEach(function (precio) {
+      precio.addEventListener("click", function () {
+        const tiquete = this.querySelector(".tiquete");
+        const mayor = this.querySelector(".mayor");
+        if (tiquete.style.display === "none") {
+          tiquete.style.display = "inline";
+          mayor.style.display = "none";
+        } else {
+          tiquete.style.display = "none";
+          mayor.style.display = "inline";
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock %}

@@ -1,0 +1,96 @@
+{% load static %} {% load humanize%}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Catalogo Kosta Azul</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zoom.js/0.0.2/zoom.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="{% static  'css/estilos_referencia.css' %}?8"
+    />
+  </head>
+  <body>
+    <div class="row">
+      <div class="col-12">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'ver_referencias' %}"
+              >Kosta Azul</a
+            >
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                {% for g in grupos_desc %}
+                <li class="nav-item">
+                  <a
+                    class="nav-link {% if request.GET.busqueda == g %}active{% endif %}"
+                    aria-current="page"
+                    href="?busqueda={{ g }}"
+                    >{{g}}</a
+                  >
+                </li>
+                {% endfor %}
+              </ul>
+              <form
+                method="get"
+                id="filterForm"
+                class="d-flex ms-auto"
+                role="search"
+              >
+                <input
+                  type="hidden"
+                  id="busqueda"
+                  name="busqueda"
+                  value="{{ request.GET.busqueda }}"
+                />
+                <select
+                  class="form-select"
+                  id="color"
+                  name="color"
+                  aria-label="Default select example"
+                  onchange="document.getElementById('filterForm').submit();"
+                >
+                  <option selected disabled>Colores...</option>
+                  {% for color in colores%}
+                  <option value="{{color}}">{{color}}</option>
+                  {% endfor %}
+                </select>
+              </form>
+              <a
+                class="btn btn-sm btn-outline-secondary p-2 m-1"
+                href="{% url 'logout'%}"
+                >Salir</a
+              >
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    {% block content %} {% endblock %}
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zoom.js/0.0.2/zoom.min.js"></script>
+  </body>
+</html>

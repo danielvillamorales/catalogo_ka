@@ -1,0 +1,88 @@
+ul {
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
+.li-card {
+    list-style-type: none;
+    overflow: hidden;
+    background-color: #002e78;
+    color: aliceblue;
+    margin-right: 2px; /* Espacio entre los elementos de la lista */
+    min-width: 25px;
+    width: auto;
+    height: 25px;
+    border-radius: 5px;
+    text-align: center;
+    align-self: center;
+    padding-left: 2px;
+    padding-right: 2px;
+    cursor: pointer ;
+}
+
+.btn-outline-primary {
+    margin-top: 5px;
+    color: #002e78;
+    background-color: #ffffff;
+    border-color: #002e78;
+}
+
+.btn-outline-primary:hover {
+    color: #ffffff;
+    background-color: #002e78;
+    border-color: #002e78;
+}
+
+.seleccion-precio {
+    margin: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.mayor{
+    background-color: #002e78;
+    color:#ffffff;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+}
+
+.tiquete{
+    border: #002e78 solid 1px;
+    background-color: #ffffff;
+    color:#002e78;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+}
+
+.text-descripcion{
+    color: #002e78;
+    font-size: 12px;
+    margin: 2px;
+}
+
+.card-title{
+    color: #ffffff;
+    background-color: #002e78;
+    font-size: 16px;
+    margin: 0px;
+    padding: 2px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.nav-link{
+    color: #002e78;
+    text-decoration: none ;
+    font-weight: bold  ;
+}
+
+.nav-link .active {
+    color: #ffffff;
+    background-color: #002e78;
+    border-radius: 5px;
+}
