@@ -6,13 +6,13 @@ ul {
 
 .li-card {
     list-style-type: none;
-    overflow: hidden;
+    overflow: visible;
     background-color: #002e78;
     color: aliceblue;
     margin-right: 2px; /* Espacio entre los elementos de la lista */
     min-width: 25px;
     width: auto;
-    height: 25px;
+    min-height: 25px;
     border-radius: 5px;
     text-align: center;
     align-self: center;

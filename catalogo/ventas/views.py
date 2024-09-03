@@ -25,12 +25,12 @@ def ver_referencias(request):
         .distinct()
     )
     subgrupos = (
-            Referencia.objects.filter(
-                fotos__isnull=False,
-            )
-            .values_list("subgrupo", "subgrupo_desc")
-            .distinct()
+        Referencia.objects.filter(
+            fotos__isnull=False,
         )
+        .values_list("subgrupo", "subgrupo_desc")
+        .distinct()
+    )
 
     # Filtrar las referencias en base a la descripción del grupo
     if busqueda:
@@ -107,8 +107,19 @@ def check_referencia_photos(request):
                     foto.save()
                 else:
                     if i == 1:
-                        lista.append(
-                            f"{referencia.codigo}{referencia.consecutivo}{referencia.codcolor} no se hallo imagen."
-                        )
+                        foto_url = f"http://201.236.231.148/fotosVtex/todas/{referencia.codigo}{referencia.codcolor}_{letra}.png"
+                        response = requests.get(foto_url)
+                        if response.status_code == 200:
+                            # Guarda la foto en el modelo
+                            foto = Foto(referencia=referencia)
+                            foto.imagen.save(
+                                f"{referencia.codigo}{referencia.codcolor}_{letra}.png",
+                                ContentFile(response.content),
+                            )
+                            foto.save()
+                        else:
+                            lista.append(
+                                f"{referencia.codigo}{referencia.consecutivo}{referencia.codcolor} no se hallo imagen."
+                            )
 
     return render(request, "subir.html", {"lista": lista, "grupos_desc": grupos_desc})

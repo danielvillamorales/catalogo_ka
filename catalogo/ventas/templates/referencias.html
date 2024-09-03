@@ -50,8 +50,9 @@
 						</span>
 					</span>
 				</p>
-				<p class="card-text text-descripcion">{{r.productos.first.color}}</p>
+				<p class="card-text text-descripcion">{{r.diseno}} {{r.productos.first.color}}</p>
 				<p class="card-text text-descripcion">{{r.composicion}}</p>
+				<p class="card-text text-descripcion">{{r.molde}}</p>
 				<ul>
 					{% for producto in r.productos.all %}
 					<li data-cantidad="{{ producto.cantidad }}" class="li-card" title="{{producto.codigo}}"
