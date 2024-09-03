@@ -24,14 +24,20 @@ def ver_referencias(request):
         .values_list("color", flat=True)
         .distinct()
     )
-    subgrupos = []
+    subgrupos = (
+            Referencia.objects.filter(
+                fotos__isnull=False,
+            )
+            .values_list("subgrupo", "subgrupo_desc")
+            .distinct()
+        )
 
     # Filtrar las referencias en base a la descripción del grupo
     if busqueda:
         subgrupos = (
             Referencia.objects.filter(
                 fotos__isnull=False,
-                descripcion__icontains=busqueda,
+                grupo_desc__icontains=busqueda,
             )
             .values_list("subgrupo", "subgrupo_desc")
             .distinct()
@@ -39,25 +45,25 @@ def ver_referencias(request):
         if color and subgrupo:
             referencias = Referencia.objects.filter(
                 fotos__isnull=False,
-                descripcion__icontains=busqueda,
+                grupo_desc__icontains=busqueda,
                 productos__color=color,
                 subgrupo=subgrupo,
             ).distinct()
         elif color:
             referencias = Referencia.objects.filter(
                 fotos__isnull=False,
-                descripcion__icontains=busqueda,
+                grupo_desc__icontains=busqueda,
                 productos__color=color,
             ).distinct()
         elif subgrupo:
             referencias = Referencia.objects.filter(
                 fotos__isnull=False,
-                descripcion__icontains=busqueda,
+                grupo_desc__icontains=busqueda,
                 subgrupo=subgrupo,
             ).distinct()
         else:
             referencias = Referencia.objects.filter(
-                fotos__isnull=False, descripcion__icontains=busqueda
+                fotos__isnull=False, grupo_desc__icontains=busqueda
             ).distinct()
     else:
         referencias = (

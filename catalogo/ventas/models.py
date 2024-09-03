@@ -15,6 +15,17 @@ class Referencia(models.Model):
     composicion = models.CharField(max_length=300)
     mayor = models.CharField(max_length=300)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
+    descuento_mayorista = models.IntegerField( )
+    descuento_tiquete = models.IntegerField( )
+
+    @property
+    def precio_mayor_con_descuento(self):
+        return (((100-self.descuento_mayorista)/100)*int(self.mayor))
+    
+    @property
+    def precio_tiquete_con_descuento(self):
+        return (((100-self.descuento_tiquete)/100)*int(self.precio))
+    
 
     def __str__(self):
         return self.codigo
