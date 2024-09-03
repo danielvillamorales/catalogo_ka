@@ -2,12 +2,14 @@
 <div class="row container-fluid">
 	{% for r in referencias %}
 	<div class="col-lg-3 col-12 col-md-6 col-sm-6 p-1">
-		<div class="card" style="width: 18rem p-2">
+		<div class="card">
 			<div id="carousel{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
 				<div class="carousel-inner">
 					{% for foto in r.fotos.all %}
 					<div class="carousel-item {% if forloop.first %}active{% endif %}">
-						<img src="{{ foto.imagen.url }}" class="d-block w-100" alt="..." />
+						<img src="{{ foto.imagen.url }}"
+							style="height: 22rem; overflow-y: hidden;object-fit: cover; object-position: center;"
+							class="d-block w-100" alt="..." />
 					</div>
 					{% endfor %}
 				</div>
