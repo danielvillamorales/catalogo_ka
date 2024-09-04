@@ -15,7 +15,11 @@ def custom_logout_view(request):
 
 @login_required
 def ver_referencias(request):
-    grupos_desc = Referencia.objects.values_list("grupo_desc", flat=True).distinct()
+    grupos_desc = (
+        Referencia.objects.values_list("grupo_desc", flat=True)
+        .distinct()
+        .order_by("grupo_desc")
+    )
     busqueda = request.GET.get("busqueda", "")
     color = request.GET.get("color", "")
     subgrupo = request.GET.get("subgrupo", "")
@@ -86,7 +90,7 @@ def ver_referencias(request):
 
 @login_required
 def check_referencia_photos(request):
-    grupos_desc = Referencia.objects.values_list("grupo_desc", flat=True).distinct()
+
     lista = []
     if request.method == "POST":
         referencias = Referencia.objects.filter(fotos__isnull=True).distinct()
@@ -122,4 +126,4 @@ def check_referencia_photos(request):
                                 f"{referencia.codigo}{referencia.consecutivo}{referencia.codcolor} no se hallo imagen."
                             )
 
-    return render(request, "subir.html", {"lista": lista, "grupos_desc": grupos_desc})
+    return render(request, "subir.html", {"lista": lista})
