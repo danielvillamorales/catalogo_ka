@@ -9,7 +9,7 @@
 					<div class="carousel-item {% if forloop.first %}active{% endif %}">
 						<img src="{{ foto.imagen.url }}"
 							style="height: 22rem; overflow-y: hidden;object-fit: cover; object-position: center;"
-							class="d-block w-100" alt="..." />
+							class="d-block w-100 " alt="..." />
 					</div>
 					{% endfor %}
 				</div>
@@ -68,6 +68,19 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade bg-dark" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true"
+		style="width: 100%;">
+		<div class="modal-dialog modal-dialog-centered" style="width: 100%;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="width: 100%;">
+					<img id="modal-image" src="" alt="Zoomed Image" style="width: 100%;">
+				</div>
+			</div>
+		</div>
+	</div>
 	{% endfor %}
 </div>
 <script>
@@ -78,7 +91,12 @@
 </script>
 <script>
 	document.querySelectorAll(".carousel-item img").forEach((img) => {
-		img.classList.add("zoom");
+		img.addEventListener("click", function () {
+			const modalImage = document.getElementById("modal-image");
+			modalImage.src = this.src; // Set the modal image source to the clicked image
+			const modal = new bootstrap.Modal(document.getElementById("imageModal"));
+			modal.show(); // Show the modal
+		});
 	});
 </script>
 <script>
