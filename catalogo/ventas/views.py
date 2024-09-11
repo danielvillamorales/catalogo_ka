@@ -13,7 +13,6 @@ def custom_logout_view(request):
     return redirect("login")
 
 
-@login_required
 def ver_referencias(request):
     grupos_desc = (
         Referencia.objects.values_list("grupo_desc", flat=True)

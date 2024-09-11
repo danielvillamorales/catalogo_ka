@@ -40,6 +40,7 @@
 						</span>
 						{% endif %}
 					</span>
+					{% if user.is_authenticated %}
 					<span class="mayor" style="display: none">
 						Mayor: <s class="text-secondary">{{ r.mayor | intcomma }}</s>
 						<span class="descuento text-danger p-2">
@@ -51,6 +52,7 @@
 							{% endif %}
 						</span>
 					</span>
+					{% endif %}
 				</p>
 				<p class="card-text text-descripcion">{{r.diseno}} {{r.productos.first.color}}</p>
 				<p class="card-text text-descripcion">{{r.composicion}}</p>
@@ -114,7 +116,7 @@
 				});
 			});
 		});
-
+		{% if user.is_authenticated %}
 		const precios = document.querySelectorAll(".seleccion-precio");
 		precios.forEach(function (precio) {
 			precio.addEventListener("click", function () {
@@ -138,6 +140,7 @@
 				}
 			});
 		});
+		{% endif %}
 	});
 </script>
 
