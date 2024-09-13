@@ -20,7 +20,9 @@ def ver_referencias(request):
     subgrupo = request.GET.get("subgrupo", "")
 
     # Consulta base
-    referencias = Referencia.objects.filter(fotos__isnull=False).distinct()
+    referencias = Referencia.objects.filter(
+        fotos__isnull=False, productos__cantidad__gte=0
+    ).distinct()
 
     # Aplicar filtros
     if busqueda:
@@ -71,7 +73,9 @@ def check_referencia_photos(request):
 
     lista = []
     if request.method == "POST":
-        referencias = Referencia.objects.filter(fotos__isnull=True).distinct()
+        referencias = Referencia.objects.filter(
+            fotos__isnull=True, productos__cantidad__gte=0
+        ).distinct()
         for referencia in referencias:
             diccionario = {1: "a", 2: "b", 3: "c", 4: "d", 5: "e", 6: "f"}
             # Suponiendo que tienes una URL para verificar las fotos

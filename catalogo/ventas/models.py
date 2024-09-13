@@ -45,6 +45,7 @@ class Producto(models.Model):
     codcolor = models.CharField(max_length=100)
     color = models.CharField(max_length=300)
     cantidad = models.IntegerField()
+    orden = models.IntegerField()
 
     def __str__(self):
         return self.referencia.codigo + " " + self.talla + " " + self.color
