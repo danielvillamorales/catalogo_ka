@@ -21,7 +21,7 @@ def ver_referencias(request):
 
     # Consulta base
     referencias = Referencia.objects.filter(
-        fotos__isnull=False, productos__cantidad__gte=0
+        fotos__isnull=False, productos__cantidad__gt=0
     ).distinct()
 
     # Aplicar filtros
