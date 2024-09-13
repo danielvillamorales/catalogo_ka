@@ -14,77 +14,56 @@ def custom_logout_view(request):
 
 
 def ver_referencias(request):
+    # Obtener parámetros de búsqueda
+    busqueda = request.GET.get("busqueda", "")
+    color = request.GET.get("color", "")
+    subgrupo = request.GET.get("subgrupo", "")
+
+    # Consulta base
+    referencias = Referencia.objects.filter(fotos__isnull=False).distinct()
+
+    # Aplicar filtros
+    if busqueda:
+        referencias = referencias.filter(grupo_desc__icontains=busqueda)
+    if color:
+        referencias = referencias.filter(productos__color=color)
+    if subgrupo:
+        referencias = referencias.filter(subgrupo=subgrupo)
+
+    # Limitar a 20 resultados si no hay filtros
+    if not (busqueda or color or subgrupo):
+        referencias = referencias.order_by("-id")[:20]
+
+    # Obtener datos para los selects
     grupos_desc = (
         Referencia.objects.values_list("grupo_desc", flat=True)
         .distinct()
         .order_by("grupo_desc")
     )
-    busqueda = request.GET.get("busqueda", "")
-    color = request.GET.get("color", "")
-    subgrupo = request.GET.get("subgrupo", "")
     colores = (
         Producto.objects.filter(cantidad__gte=0)
         .values_list("color", flat=True)
         .distinct()
     )
     subgrupos = (
-        Referencia.objects.filter(
-            fotos__isnull=False,
-        )
+        Referencia.objects.filter(fotos__isnull=False)
         .values_list("subgrupo", "subgrupo_desc")
         .distinct()
     )
 
-    # Filtrar las referencias en base a la descripción del grupo
+    # Si hay búsqueda, filtrar subgrupos
     if busqueda:
-        subgrupos = (
-            Referencia.objects.filter(
-                fotos__isnull=False,
-                grupo_desc__icontains=busqueda,
-            )
-            .values_list("subgrupo", "subgrupo_desc")
-            .distinct()
-        )
-        if color and subgrupo:
-            referencias = Referencia.objects.filter(
-                fotos__isnull=False,
-                grupo_desc__icontains=busqueda,
-                productos__color=color,
-                subgrupo=subgrupo,
-            ).distinct()
-        elif color:
-            referencias = Referencia.objects.filter(
-                fotos__isnull=False,
-                grupo_desc__icontains=busqueda,
-                productos__color=color,
-            ).distinct()
-        elif subgrupo:
-            referencias = Referencia.objects.filter(
-                fotos__isnull=False,
-                grupo_desc__icontains=busqueda,
-                subgrupo=subgrupo,
-            ).distinct()
-        else:
-            referencias = Referencia.objects.filter(
-                fotos__isnull=False, grupo_desc__icontains=busqueda
-            ).distinct()
-    else:
-        referencias = (
-            Referencia.objects.filter(fotos__isnull=False)
-            .order_by("-id")
-            .distinct()[:20]
-        )
-    return render(
-        request,
-        "referencias.html",
-        {
-            "referencias": referencias,
-            "grupos_desc": grupos_desc,
-            "busqueda": busqueda,
-            "colores": colores,
-            "subgrupos": subgrupos,
-        },
-    )
+        subgrupos = subgrupos.filter(grupo_desc__icontains=busqueda)
+
+    context = {
+        "referencias": referencias,
+        "grupos_desc": grupos_desc,
+        "busqueda": busqueda,
+        "colores": colores,
+        "subgrupos": subgrupos,
+    }
+
+    return render(request, "referencias.html", context)
 
 
 @login_required

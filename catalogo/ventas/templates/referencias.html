@@ -60,7 +60,8 @@
 				<ul>
 					{% for producto in r.productos.all %}
 					<li data-cantidad="{{ producto.cantidad }}" class="li-card" title="{{producto.codigo}}"
-						ontouchstart="showTitle(event)">
+						ontouchstart="showTitle(event)"
+						style="{% if producto.cantidad == 0 %} background-color: #787878; {% endif %}">
 						{{ producto.talla }}
 						<span class="ver_saldo" style="display: none">: {{producto.cantidad}}</span>
 					</li>
