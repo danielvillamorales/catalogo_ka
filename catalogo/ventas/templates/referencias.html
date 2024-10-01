@@ -42,7 +42,10 @@
 					</span>
 					{% if user.is_authenticated %}
 					<span class="mayor" style="display: none">
-						Mayor: <s class="text-secondary">{{ r.mayor | intcomma }}</s>
+						Mayor:
+						{% if r.descuento_mayorista > 0 %}
+						<s class="text-secondary">{{ r.mayor | intcomma }}</s>
+						{% endif %}
 						<span class="descuento text-danger p-2">
 							{{ r.precio_mayor_con_descuento | intcomma }}
 							{% if r.descuento_mayorista > 0 %}
